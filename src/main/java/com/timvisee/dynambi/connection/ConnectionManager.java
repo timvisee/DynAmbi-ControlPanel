@@ -33,6 +33,16 @@ public class ConnectionManager {
     private String portName;
 
     /**
+     * Define whether to automatically connect to the LED strip on the given port if the port becomes available.
+     */
+    private boolean autoConnect = true;
+
+    /**
+     * The auto connect thread if available.
+     */
+    private Thread autoConnectThread;
+
+    /**
      * Connected LED strip.
      */
     private StripConnection strip;
@@ -40,7 +50,11 @@ public class ConnectionManager {
     /**
      * Constructor.
      */
-    public ConnectionManager() { }
+    public ConnectionManager() {
+        // Set up the auto connect thread and start it
+        this.autoConnectThread = new AutoConnectThread(this);
+        this.autoConnectThread.start();
+    }
 
     /**
      * Constructor.
@@ -52,13 +66,76 @@ public class ConnectionManager {
     }
 
     /**
+     * Get the target port name.
+     *
+     * @return Serial port name.
+     */
+    public String getPortName() {
+        return this.portName;
+    }
+
+    /**
+     * Check whether a port name has been specified.
+     *
+     * @return True if a port name is specified, false if not.
+     */
+    public boolean hasPortName() {
+        return this.portName != null && this.portName.length() > 0;
+    }
+
+    /**
+     * Check whether the connection manager will automatically connect when the port becomes available.
+     *
+     * @return True if auto connecting is enabled, false if not.
+     */
+    public boolean isAutoConnect() {
+        return this.autoConnect;
+    }
+
+    /**
+     * Set whether to automatically connect when the specified port becomes available.
+     *
+     * @param autoConnect True to auto connect, false if not.
+     */
+    public void setAutoConnect(boolean autoConnect) {
+        this.autoConnect = autoConnect;
+    }
+
+    /**
+     * Get the auto connect polling thread.
+     *
+     * @return Auto connect polling thread.
+     */
+    public Thread getAutoConnectThread() {
+        return this.autoConnectThread;
+    }
+
+    /**
+     * Get the instance of the strip if connected.
+     *
+     * @return Connected LED strip instance, null if the strip isn't connected.
+     */
+    public StripConnection getStrip() {
+        return this.strip;
+    }
+
+    /**
+     * Check whether any LED strip is connected.
+     *
+     * @return True if any LED strip is connected, false if not.
+     */
+    public boolean isConnected() {
+        return this.strip != null;
+    }
+
+    /**
      * Connect to the strip on the given port.
      *
      * @return Strip connection instance.
      *
      * @throws Exception Throws if an error occurred.
      */
-    public StripConnection connect() throws Exception {
+    public synchronized StripConnection connect() throws Exception {
         return connect(new SerialPort(this.portName));
     }
 
@@ -71,7 +148,7 @@ public class ConnectionManager {
      *
      * @throws Exception Throws if an error occurred.
      */
-    public StripConnection connect(SerialPort port) throws Exception {
+    public synchronized StripConnection connect(SerialPort port) throws Exception {
         // Store the serial port name
         this.portName = port.getPortName();
 
@@ -101,35 +178,8 @@ public class ConnectionManager {
      *
      * @throws Exception Throws if an error occurred.
      */
-    public StripConnection connect(String portName) throws Exception {
+    public synchronized StripConnection connect(String portName) throws Exception {
         return connect(new SerialPort(portName));
-    }
-
-    /**
-     * Get the target port name.
-     *
-     * @return Serial port name.
-     */
-    public String getPortName() {
-        return this.portName;
-    }
-
-    /**
-     * Get the instance of the strip if connected.
-     *
-     * @return Connected LED strip instance, null if the strip isn't connected.
-     */
-    public StripConnection getStrip() {
-        return this.strip;
-    }
-
-    /**
-     * Check whether any LED strip is connected.
-     *
-     * @return True if any LED strip is connected, false if not.
-     */
-    public boolean isConnected() {
-        return this.strip != null;
     }
 
     /**
