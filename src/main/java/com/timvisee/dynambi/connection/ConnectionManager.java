@@ -78,6 +78,15 @@ public class ConnectionManager {
     }
 
     /**
+     * Set the preferred port name.
+     *
+     * @param portName Port name.
+     */
+    public void setPortName(String portName) {
+        this.portName = portName;
+    }
+
+    /**
      * Check whether a port name has been specified.
      *
      * @return True if a port name is specified, false if not.

@@ -25,7 +25,7 @@ package com.timvisee.dynambi;
 public class Globals {
 
     /**
-     * Default COM port.
+     * Default serial port name.
      */
-    public static final String DEFAULT_COM_PORT = "COM11";
+    public static final String DEFAULT_SERIAL_PORT_NAME = "COM11";
 }
