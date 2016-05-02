@@ -67,8 +67,14 @@ public class AutoConnectThread extends Thread {
                         continue;
 
                     try {
+                        // Show a status message
+                        System.out.println("Connecting to LED strip at " + connectionManager.getPortName() + "...");
+
                         // Try to connect to the specified port
                         connectionManager.connect();
+
+                        // Show a status message
+                        System.out.println("Connected successfully");
 
                     } catch(Exception e) {
                         e.printStackTrace();
