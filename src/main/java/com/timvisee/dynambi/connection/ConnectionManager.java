@@ -28,6 +28,11 @@ import jssc.SerialPortList;
 public class ConnectionManager {
 
     /**
+     * Serial port name to connect to.
+     */
+    private String portName;
+
+    /**
      * Connected LED strip.
      */
     private StripConnection strip;
@@ -36,6 +41,26 @@ public class ConnectionManager {
      * Constructor.
      */
     public ConnectionManager() { }
+
+    /**
+     * Constructor.
+     *
+     * @param portName Serial port name.
+     */
+    public ConnectionManager(String portName) {
+        this.portName = portName;
+    }
+
+    /**
+     * Connect to the strip on the given port.
+     *
+     * @return Strip connection instance.
+     *
+     * @throws Exception Throws if an error occurred.
+     */
+    public StripConnection connect() throws Exception {
+        return connect(new SerialPort(this.portName));
+    }
 
     /**
      * Connect to a strip.
@@ -47,6 +72,9 @@ public class ConnectionManager {
      * @throws Exception Throws if an error occurred.
      */
     public StripConnection connect(SerialPort port) throws Exception {
+        // Store the serial port name
+        this.portName = port.getPortName();
+
         // Open the serial port if it hasn't been opened yet
         if(!port.isOpened())
             port.openPort();
@@ -78,9 +106,18 @@ public class ConnectionManager {
     }
 
     /**
-     * Get the connected LED strip.
+     * Get the target port name.
      *
-     * @return Connected LED strip.
+     * @return Serial port name.
+     */
+    public String getPortName() {
+        return this.portName;
+    }
+
+    /**
+     * Get the instance of the strip if connected.
+     *
+     * @return Connected LED strip instance, null if the strip isn't connected.
      */
     public StripConnection getStrip() {
         return this.strip;
@@ -100,7 +137,7 @@ public class ConnectionManager {
      *
      * @return List of serial port names.
      */
-    public String[] listPorts() {
+    public static String[] listPorts() {
         return SerialPortList.getPortNames();
     }
 }

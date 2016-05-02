@@ -23,6 +23,7 @@
 package com.timvisee.dynambi;
 
 import com.timvisee.dynambi.connection.ConnectionManager;
+import com.timvisee.dynambi.connection.StripConnection;
 
 public class Core {
 
@@ -37,6 +38,26 @@ public class Core {
     public void init() {
         // Show a status message
         System.out.println("Initializing " + DynAmbi.APP_NAME + "...");
+
+
+
+        // TODO: Set target name
+        // TODO: Option to automatically connect when target becomes available
+        // TODO: Connect, safely. Properly disconnect and close the port if the connection is lost
+
+
+
+
+        try {
+            // Connect to the LED strip
+            System.out.println("Connecting to LED strip at " + Globals.DEFAULT_COM_PORT + "...");
+            StripConnection strip = this.connectionManager.connect(Globals.DEFAULT_COM_PORT);
+
+            System.out.println("Connected to LED strip");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
