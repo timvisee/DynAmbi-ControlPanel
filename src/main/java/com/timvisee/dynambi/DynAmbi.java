@@ -1,6 +1,6 @@
 package com.timvisee.dynambi;
 
-public class Main {
+public class DynAmbi {
 
     public static void main(String[] args) {
 	    // TODO: write your code here
