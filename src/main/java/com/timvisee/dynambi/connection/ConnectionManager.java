@@ -65,6 +65,7 @@ public class ConnectionManager {
 
         // Set up the auto connect thread and start it
         this.autoConnectThread = new AutoConnectThread(this);
+        this.autoConnectThread.setDaemon(true);
         this.autoConnectThread.start();
     }
 
