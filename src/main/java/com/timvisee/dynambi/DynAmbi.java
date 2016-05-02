@@ -5,7 +5,7 @@ public class DynAmbi {
     /**
      * Application name.
      */
-    public static final String APP_NAME = "DynAmbi - Control Panel";
+    public static final String APP_NAME = "DynAmbi Control Panel";
 
     /**
      * Application version name.
@@ -26,7 +26,17 @@ public class DynAmbi {
         return APP_NAME + " v" + APP_VERSION_NAME;
     }
 
+    /**
+     * Main method, called on start.
+     *
+     * @param args Start up arguments.
+     */
     public static void main(String[] args) {
-	    // TODO: write your code here
+        // Print the application name and version
+        System.out.println(getNameFull());
+
+	    // Initialize the core
+        Core core = new Core();
+        core.init();
     }
 }
