@@ -70,10 +70,6 @@ public class AutoConnectThread extends Thread {
                         // Try to connect to the specified port
                         connectionManager.connect();
 
-                        // Stop the thread if we're connected
-                        if(connectionManager.isConnected())
-                            break;
-
                     } catch(Exception e) {
                         e.printStackTrace();
                     }
