@@ -51,9 +51,7 @@ public class ConnectionManager {
      * Constructor.
      */
     public ConnectionManager() {
-        // Set up the auto connect thread and start it
-        this.autoConnectThread = new AutoConnectThread(this);
-        this.autoConnectThread.start();
+        this(null);
     }
 
     /**
@@ -62,7 +60,12 @@ public class ConnectionManager {
      * @param portName Serial port name.
      */
     public ConnectionManager(String portName) {
+        // Set the port name
         this.portName = portName;
+
+        // Set up the auto connect thread and start it
+        this.autoConnectThread = new AutoConnectThread(this);
+        this.autoConnectThread.start();
     }
 
     /**
