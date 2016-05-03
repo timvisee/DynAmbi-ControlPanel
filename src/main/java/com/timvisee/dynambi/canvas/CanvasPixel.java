@@ -37,6 +37,33 @@ public class CanvasPixel {
     private boolean pinned = false;
 
     /**
+     * Constructor.
+     */
+    public CanvasPixel() {
+        this(new Point(0.5f, 0.5f), true);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param point Point.
+     */
+    public CanvasPixel(Point point) {
+        this(point, true);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param point Point.
+     * @param pinned True if pinned, false if not.
+     */
+    public CanvasPixel(Point point, boolean pinned) {
+        this.point = point;
+        this.pinned = pinned;
+    }
+
+    /**
      * Get the pixel point.
      *
      * @return Pixel point.
