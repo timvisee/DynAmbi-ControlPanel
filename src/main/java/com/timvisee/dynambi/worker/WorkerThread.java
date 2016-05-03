@@ -25,9 +25,18 @@ package com.timvisee.dynambi.worker;
 public class WorkerThread extends Thread {
 
     /**
+     * Thread name.
+     */
+    private static final String THREAD_NAME = "Worker thread";
+
+    /**
      * Constructor.
      */
     public WorkerThread() {
-        super(() -> { }, "Worker thread");
+        super(() -> {
+            // Show a status message
+            System.out.println(THREAD_NAME + " started");
+
+        }, THREAD_NAME);
     }
 }

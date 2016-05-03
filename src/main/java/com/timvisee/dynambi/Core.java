@@ -28,6 +28,11 @@ import com.timvisee.dynambi.worker.Worker;
 public class Core {
 
     /**
+     * Core instance.
+     */
+    private static Core instance;
+
+    /**
      * Connection manager instance.
      */
     private ConnectionManager connectionManager;
@@ -38,9 +43,21 @@ public class Core {
     private Worker worker;
 
     /**
+     * Get the core instance.
+     *
+     * @return Core instance.
+     */
+    public static Core getInstance() {
+        return instance;
+    }
+
+    /**
      * Initialize.
      */
     public void init() {
+        // Set the core instance
+        instance = this;
+
         // Show a status message
         System.out.println("Initializing " + DynAmbi.APP_NAME + "...");
 

@@ -46,6 +46,9 @@ public class AutoConnectThread extends Thread {
     public AutoConnectThread(final ConnectionManager connectionManager) {
         // Call the super, and create the runnable
         super(() -> {
+            // Show a status message
+            System.out.println(THREAD_NAME + " started");
+
             try {
                 // Flag to define whether whether we've run the loop before
                 boolean firstRun = true;
