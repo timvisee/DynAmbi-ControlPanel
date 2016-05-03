@@ -22,6 +22,10 @@
 
 package com.timvisee.dynambi.worker;
 
+import com.timvisee.dynambi.Core;
+import jssc.SerialPort;
+import jssc.SerialPortException;
+
 public class WorkerThread extends Thread {
 
     /**
@@ -30,12 +34,67 @@ public class WorkerThread extends Thread {
     private static final String THREAD_NAME = "Worker thread";
 
     /**
+     * Sleep delay of the thread when it's idling.
+     */
+    private static final int THREAD_IDLE_SLEEP_DELAY = 1000;
+
+    /**
      * Constructor.
      */
     public WorkerThread() {
         super(() -> {
             // Show a status message
             System.out.println(THREAD_NAME + " started");
+
+            try {
+                int i = 0;
+
+                // Keep looping
+                while(true) {
+                    // Idle the thread if we're not connected
+                    if(!Core.getInstance().getConnectionManager().isConnected()) {
+                        Thread.sleep(THREAD_IDLE_SLEEP_DELAY);
+                        continue;
+                    }
+
+                    // Get the connected strip
+                    SerialPort strip = Core.getInstance().getConnectionManager().getStrip().getPort();
+
+                    try {
+
+                        // Send the header
+                        strip.writeString("oz");
+
+                        strip.writeInt((int) (Math.random() * 127.0));
+                        strip.writeInt((int) (Math.random() * 127.0));
+                        strip.writeInt((int) (Math.random() * 127.0));
+
+                        strip.writeInt((int) (Math.random() * 127.0));
+                        strip.writeInt((int) (Math.random() * 127.0));
+                        strip.writeInt((int) (Math.random() * 127.0));
+
+                        strip.writeInt((int) (Math.random() * 127.0));
+                        strip.writeInt((int) (Math.random() * 127.0));
+                        strip.writeInt((int) (Math.random() * 127.0));
+
+                        strip.writeInt((int) (Math.random() * 127.0));
+                        strip.writeInt((int) (Math.random() * 127.0));
+                        strip.writeInt((int) (Math.random() * 127.0));
+
+                        // Send the footer
+                        strip.writeInt(130);
+
+                        // Sleep for a little
+                        Thread.sleep(500);
+
+                    } catch(SerialPortException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }, THREAD_NAME);
     }
