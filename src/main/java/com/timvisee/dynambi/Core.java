@@ -23,13 +23,19 @@
 package com.timvisee.dynambi;
 
 import com.timvisee.dynambi.connection.ConnectionManager;
+import com.timvisee.dynambi.worker.Worker;
 
 public class Core {
 
     /**
      * Connection manager instance.
      */
-    private ConnectionManager connectionManager = new ConnectionManager();
+    private ConnectionManager connectionManager;
+
+    /**
+     * Worker instance.
+     */
+    private Worker worker;
 
     /**
      * Initialize.
@@ -38,8 +44,16 @@ public class Core {
         // Show a status message
         System.out.println("Initializing " + DynAmbi.APP_NAME + "...");
 
+        // Instantiate the connection manager
+        System.out.println("Initializing connection manager...");
+        this.connectionManager = new ConnectionManager();
+
         // Set the preferred serial port on the connection manager
         this.connectionManager.setPortName(Globals.DEFAULT_SERIAL_PORT_NAME);
+
+        // Instantiate worker
+        System.out.println("Initializing worker...");
+        this.worker = new Worker();
 
         // TODO: Close the serial connection if the connection is lost
     }
@@ -51,5 +65,14 @@ public class Core {
      */
     public ConnectionManager getConnectionManager() {
         return this.connectionManager;
+    }
+
+    /**
+     * Get the worker.
+     *
+     * @return The worker.
+     */
+    public Worker getWorker() {
+        return this.worker;
     }
 }
